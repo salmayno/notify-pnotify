@@ -13,4 +13,12 @@ final class PnotifyProducer extends AbstractProducer
     {
         return 'pnotify';
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function warning($message, $title = '', $context = array(), array $stamps = array())
+    {
+        return $this->render('notice', $message, $title, $context, $stamps);
+    }
 }

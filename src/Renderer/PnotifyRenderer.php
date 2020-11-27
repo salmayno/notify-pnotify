@@ -47,13 +47,11 @@ class PnotifyRenderer implements RendererInterface, HasScriptsInterface, HasStyl
         $context = $envelope->getContext();
         $options = isset($context['options']) ? $context['options'] : array();
 
-        return sprintf(
-            "pnotify.%s('%s', '%s', %s);",
-            $envelope->getType(),
-            $envelope->getMessage(),
-            $envelope->getTitle(),
-            json_encode($options)
-        );
+        $options['title'] = " " . $envelope->getTitle();
+        $options['text'] = $envelope->getMessage();
+        $options['type'] = $envelope->getType();
+
+        return sprintf("new PNotify(%s);", json_encode($options));
     }
 
     /**
@@ -74,6 +72,6 @@ class PnotifyRenderer implements RendererInterface, HasScriptsInterface, HasStyl
 
     public function renderOptions()
     {
-        return sprintf('pnotify.options = %s;', json_encode($this->options));
+        return sprintf('PNotify.defaults = %s;', json_encode($this->options));
     }
 }
